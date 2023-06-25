@@ -156,28 +156,32 @@
         );
       }
 
+      function CustomButton({text, handler, className}) {
+        return (
+          <button onClick={handler} className={className}>{text}</button>
+        );
+      }
+
+      function CounterText({value}) {
+        return (<span>{value}</span>);
+      }
+
       function CounterPage() {
         let [number, setNumber] = React.useState(0);
 
         const increment = () => setNumber(number + 1); 
-        const decrement = () => {
-          if (number <= 0) {
-            return;
-          }
-          
-          setNumber(number - 1);
-        };
+        const decrement = () => setNumber(number - 1);
         const reset = () => setNumber(0);
         
         return (
           <>
             <Header title="Practice: Counter" />
             <div className="counter">
-              <button onClick={increment} className="btn-counter bg-green">+</button>
-              <span>({number})</span>
-              <button onClick={decrement} className="btn-counter bg-yellow">-</button>
+              <CustomButton handler={increment} className="btn-counter bg-green" text="+" />
+              <CounterText value={number} />
+              <CustomButton handler={decrement} className="btn-counter bg-yellow" text="-" />
             </div>
-            <button onClick={reset} className="btn-reset bg-red">Reset</button>
+            <CustomButton handler={reset} className="btn-reset bg-red" text="Reset" />
           </>
         );
       }
