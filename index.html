@@ -35,6 +35,27 @@
         animation: spin 10s linear infinite;
       }
 
+      .content ul {
+        align-self: flex-start;
+      }
+
+      .my-button {
+        width: 100%;
+        border: none;
+        border-radius: 12px;
+        background-color: rgb(74, 74, 238);
+        color: #fff;
+        padding: 20px 10px;
+        margin: 10px 0;
+        font-size: 1rem;
+        transition: 0.3s all ease-in-out;
+      }
+
+      .my-button:hover {
+        opacity: 0.7;
+        cursor: pointer;
+      }
+      
       @keyframes spin {
         from {
           transform: rotate(0deg);
@@ -70,6 +91,12 @@
       }
 
       function Content() {
+        let [likes, setLikes] = React.useState(0);
+
+        const handleClick = () => {
+          setLikes(likes + 1);
+        }
+        
         return (
           <div className="content">
             <img src="https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png" alt="react.js logo" />
@@ -79,6 +106,7 @@
                 <li key={student}>{student}</li>
               ))}
             </ul>
+            <button className="my-button" onClick={handleClick}>Likes ({likes})</button>
           </div>
         );
       }
