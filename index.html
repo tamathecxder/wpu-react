@@ -84,11 +84,6 @@
         transition: all 0.3s ease-in-out;
       }
 
-      .counter .btn-counter:hover, .counter + .btn-reset:hover {
-        opacity: 0.7;
-        cursor: pointer;
-      }
-
       .bg-red {
         background-color: #ef4444;
       }
@@ -99,6 +94,10 @@
 
       .bg-yellow {
         background-color: #fcb04d;
+      }
+
+      .opacity-05 {
+        opacity: 0.5;
       }
       
       @keyframes spin {
@@ -156,9 +155,9 @@
         );
       }
 
-      function CustomButton({text, handler, className}) {
+      function CustomButton({text, handler, className, disabled}) {
         return (
-          <button onClick={handler} className={className}>{text}</button>
+          <button onClick={handler} className={`${className} ${disabled ? 'opacity-05' : ''}`} disabled={disabled}>{text}</button>
         );
       }
 
@@ -169,19 +168,35 @@
       function CounterPage() {
         let [number, setNumber] = React.useState(0);
 
-        const increment = () => setNumber(number + 1); 
-        const decrement = () => setNumber(number - 1);
+        const increment = () => {          
+          if (number < 9) {
+            setNumber(number + 1);
+          } else {
+            setNumber("done!");
+            return;
+          }
+        }; 
+
+        const decrement = () => {
+          if (number > 0) {
+            setNumber(number - 1);
+          } else {
+            setNumber("done!");
+            return;
+          }
+        };
+
         const reset = () => setNumber(0);
         
         return (
           <>
             <Header title="Practice: Counter" />
             <div className="counter">
-              <CustomButton handler={increment} className="btn-counter bg-green" text="+" />
+              <CustomButton handler={decrement} className="btn-counter bg-yellow" text="-" disabled={number == 'done!'} />
               <CounterText value={number} />
-              <CustomButton handler={decrement} className="btn-counter bg-yellow" text="-" />
+              <CustomButton handler={increment} className="btn-counter bg-green" text="+" disabled={number == 'done!'} />
             </div>
-            <CustomButton handler={reset} className="btn-reset bg-red" text="Reset" />
+            <CustomButton handler={reset} className="btn-reset bg-red" text="Reset" disabled={number != 'done!'} />
           </>
         );
       }
