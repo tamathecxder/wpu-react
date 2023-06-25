@@ -17,25 +17,27 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
         background-color: rgb(39, 40, 34);
         overflow: hidden;
       }
 
-      .content {
+      .home {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        margin-bottom: 20px;
       }
 
-      .content img {
+      .home img {
         width: 200px;
         object-fit: cover;
         object-position: center;
         animation: spin 10s linear infinite;
       }
 
-      .content ul {
+      .home ul {
         align-self: flex-start;
       }
 
@@ -54,6 +56,49 @@
       .my-button:hover {
         opacity: 0.7;
         cursor: pointer;
+      }
+
+      .counter {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .counter .btn-counter {
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 10px 30px;
+        color: #fff;
+        transition: all 0.3s ease-in-out;
+      }
+      
+      .counter + .btn-reset {
+        border: none;
+        border-radius: 5px;
+        margin-top: 18px;
+        padding: 10px 30px;
+        color: #fff;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .counter .btn-counter:hover, .counter + .btn-reset:hover {
+        opacity: 0.7;
+        cursor: pointer;
+      }
+
+      .bg-red {
+        background-color: #ef4444;
+      }
+
+      .bg-green {
+        background-color: #047857;
+      }
+
+      .bg-yellow {
+        background-color: #fcb04d;
       }
       
       @keyframes spin {
@@ -84,13 +129,13 @@
         'Donex'
       ];
       
-      function Header({ name }) {
+      function Header({ title }) {
         return (
-          <h1>Belajar React.js Bareng {name ? name : 'WPU'} 🚀</h1>
+          <h1>{title ? title : 'WPU'} 🚀</h1>
         );
       }
 
-      function Content() {
+      function HomePage() {
         let [likes, setLikes] = React.useState(0);
 
         const handleClick = () => {
@@ -98,9 +143,9 @@
         }
         
         return (
-          <div className="content">
+          <div className="home">
             <img src="https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png" alt="react.js logo" />
-            <Header name="Agus" />
+            <Header title="Props & State" />
             <ul>
               {students.map((student) => (
                 <li key={student}>{student}</li>
@@ -111,10 +156,37 @@
         );
       }
 
+      function CounterPage() {
+        let [number, setNumber] = React.useState(0);
+
+        const increment = () => setNumber(number + 1); 
+        const decrement = () => {
+          if (number <= 0) {
+            return;
+          }
+          
+          setNumber(number - 1);
+        };
+        const reset = () => setNumber(0);
+        
+        return (
+          <>
+            <Header title="Practice: Counter" />
+            <div className="counter">
+              <button onClick={increment} className="btn-counter bg-green">+</button>
+              <span>({number})</span>
+              <button onClick={decrement} className="btn-counter bg-yellow">-</button>
+            </div>
+            <button onClick={reset} className="btn-reset bg-red">Reset</button>
+          </>
+        );
+      }
+
       function App() {
         return (
           <div id="root">
-            <Content />
+            <HomePage />
+            <CounterPage />
           </div>
         );
       }
